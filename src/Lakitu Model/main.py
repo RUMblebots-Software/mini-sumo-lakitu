@@ -16,7 +16,7 @@ sensor.set_pixformat(sensor.GRAYSCALE)  # Set pixel format to RGB565 (or GRAYSCA
 sensor.set_framesize(sensor.QVGA)  # Set frame size to QVGA (320x240)
 sensor.skip_frames(time=2000)  # Let the camera adjust.
 
-min_confidence = 0.4
+min_confidence = 0.7
 threshold_list = [(math.ceil(min_confidence * 255), 255)]
 
 # Load built-in model
@@ -27,16 +27,14 @@ print(model)
 # model = ml.Model('<object_detection_modelwork>.tflite', load_to_fb=True)
 labels = [line.rstrip('\n') for line in open("labels/labels.txt")]
 
-colors = [  # Add more colors if you are detecting more than 7 types of classes at once.
-    (255, 0, 0),
-    (0, 255, 0),
-    (255, 255, 0),
-    (0, 0, 255),
-    (255, 0, 255),
-    (0, 255, 255),
-    (255, 255, 255),
-]
+# Define specific colors for the given labels
+label_colors = {
+    "NotMiniSumo": (255, 255, 0),  # Yellow
+    "MiniSumo": (0, 255, 0),        # Green
+    "Flag": (255, 0, 0)             # Red
+}
 
+default_color = (255, 255, 255)
 
 # FOMO outputs an image per class where each pixel in the image is the centroid of the trained
 # object. So, we will get those output images and then run find_blobs() on them to extract the
@@ -62,24 +60,36 @@ def fomo_post_process(model, inputs, outputs):
             nms.add_bounding_box(x, y, x + w, y + h, score, i)
     return nms.get_bounding_boxes()
 
-
 clock = time.clock()
 while True:
     clock.tick()
-
     img = sensor.snapshot()
 
     for i, detection_list in enumerate(model.predict([img], callback=fomo_post_process)):
-        if i == 0:
-            continue  # background class
+        # Only proceed if the label is 'MiniSumo'
+        if labels[i] != "MiniSumo":
+            continue
+
         if len(detection_list) == 0:
             continue  # no detections for this class?
 
+        # For MiniSumo, use the specific color and print details.
         print("********** %s **********" % labels[i])
+        color = label_colors.get(labels[i], default_color)
+
         for (x, y, w, h), score in detection_list:
             center_x = math.floor(x + (w / 2))
             center_y = math.floor(y + (h / 2))
             print(f"x {center_x}\ty {center_y}\tscore {score}")
-            img.draw_circle((center_x, center_y, 12), color=colors[i])
+            
+            size_multiplier = 2.5
+            img.draw_rectangle(
+                int(x - w * (size_multiplier - 1) / 2),
+                int(y - h * (size_multiplier - 1) / 2),
+                int(w * size_multiplier),
+                int(h * size_multiplier),
+                color=color,
+                thickness=2
+            )
 
     print(clock.fps(), "fps", end="\n")
