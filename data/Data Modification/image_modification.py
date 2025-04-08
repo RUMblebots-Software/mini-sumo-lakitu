@@ -14,7 +14,7 @@ def visualize(image):
 
 
 input_folders = ["../Data Acquisition/Flag.class","../Data Acquisition/MiniSumo.class","../Data Acquisition/NotMiniSumo.class"]
-output_folders = ["Data Modification/Flag.class","Data Modification/MiniSumo.class","Data Modification/NotMiniSumo.class"]
+output_folders = ["Data Modification/Flag.Augmented","Data Modification/MiniSumo.Augmented","Data Modification/NotMiniSumo.Augmented"]
 
 
 #Pipeline Definition 
