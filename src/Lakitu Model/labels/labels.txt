@@ -1,4 +1,0 @@
-background
-Flag
-MiniSumo
-NotMiniSumo
