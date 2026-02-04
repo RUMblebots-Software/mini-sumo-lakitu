@@ -44,10 +44,24 @@ class BoundingBoxImageFolder(ImageFolder):
 
 
              
-        with open("Dataset\\DatasetSample.json", "r") as file:
+        with open(json_dir, "r") as file:
                 data = json.load(file)
+        
+        
+        for image in data['files']:
+            # NOTE: if there are multiple bounding boxes in the same image we can access them by image['boundingBoxes'][index]
+            boundingBoxesPerImage = len(image['boundingBoxes'])
 
-        print(data['files'][0]["boundingBoxes"]) # the zero will be the iterable variable that we will use of the for loop
+            if(boundingBoxesPerImage > 1):
+                print(f"This has {boundingBoxesPerImage} boxes\n")
+                for boxes in image['boundingBoxes']:
+                    
+                     print(boxes)
+
+            else:                 
+                print(image['boundingBoxes'])  
+
+        # print(data['files'][0]["boundingBoxes"]) # the zero will be the iterable variable that we will use of the for loop
 
         return
 
@@ -101,4 +115,4 @@ class BoundingBoxImageFolder(ImageFolder):
 #         image, target = self.transform(image, target)
 
 obj = BoundingBoxImageFolder(None,None,None,None,None,None)
-obj.find_bounding_boxes(1)
+obj.find_bounding_boxes("Dataset\\DatasetSample.json")
