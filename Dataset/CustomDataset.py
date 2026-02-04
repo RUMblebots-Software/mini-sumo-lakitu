@@ -40,13 +40,9 @@ class BoundingBoxImageFolder(ImageFolder):
             # extract information TODO: what is the relevant info and what do we achieve with it?
             # call function to process the data and fetch results
             # contain processed data in tensor/matrix whatever
-            # return output to feed into make_dataset
-
-
-             
+            # return output to feed into make_dataset             
         with open(json_dir, "r") as file:
-                data = json.load(file)
-        
+                data = json.load(file)        
         
         for image in data['files']:
             # NOTE: if there are multiple bounding boxes in the same image we can access them by image['boundingBoxes'][index]
@@ -56,13 +52,11 @@ class BoundingBoxImageFolder(ImageFolder):
                 print(f"This has {boundingBoxesPerImage} boxes\n")
                 for boxes in image['boundingBoxes']:
                     
-                     print(boxes)
+                    print(boxes)
 
             else:                 
                 print(image['boundingBoxes'])  
-
-        # print(data['files'][0]["boundingBoxes"]) # the zero will be the iterable variable that we will use of the for loop
-
+        
         return
 
     def make_dataset(self, ):
