@@ -1,0 +1,288 @@
+{
+    "version" : 1,
+    "files":[
+        {
+      "path": "data/minisumo.193922a4b975d7b3a13fd5a739fddc49(2).jpg.4o4v5ifd.ingestion-6d4b7975-2kjmn.jpg",
+      "name": "minisumo.193922a4b975d7b3a13fd5a739fddc49(2).4o4v5ifd",
+      "category": "data",
+      "label": { "type": "label", "label": "minisumo" },
+      "boundingBoxes": [
+        {
+          "label": "MiniSumo",
+          "x": 93,
+          "y": 59,
+          "width": 458,
+          "height": 341,
+          "addedByHand": true
+        }
+      ]
+    },
+    {
+      "path": "data/minisumo.0J3935.600(2).jpg.4o4v5lui.ingestion-6d4b7975-8kjp4.jpg",
+      "name": "minisumo.0J3935.600(2).4o4v5lui",
+      "category": "data",
+      "label": { "type": "label", "label": "minisumo" },
+      "boundingBoxes": [
+        {
+          "label": "MiniSumo",
+          "x": 3,
+          "y": 9,
+          "width": 488,
+          "height": 394,
+          "addedByHand": true
+        }
+      ]
+    },{
+      "path": "data/minisumo.0J308.600(3).jpg.4o4v5m6r.ingestion-6d4b7975-gnhvp.jpg",
+      "name": "minisumo.0J308.600(3).4o4v5m6r",
+      "category": "data",
+      "label": { "type": "label", "label": "minisumo" },
+      "boundingBoxes": [
+        {
+          "label": "MiniSumo",
+          "x": 9,
+          "y": 6,
+          "width": 586,
+          "height": 389,
+          "addedByHand": true
+        }
+      ]
+    },
+    {
+      "path": "data/minisumo.0J308.600(2).jpg.4o4v5mgt.ingestion-6d4b7975-gnhvp.jpg",
+      "name": "minisumo.0J308.600(2).4o4v5mgt",
+      "category": "data",
+      "label": { "type": "label", "label": "minisumo" },
+      "boundingBoxes": [
+        {
+          "label": "MiniSumo",
+          "x": 7,
+          "y": 5,
+          "width": 585,
+          "height": 391,
+          "addedByHand": true
+        }
+      ]
+    },
+    {
+      "path": "data/minisumo.09(1).jpg.4o4v5mqp.ingestion-6d4b7975-8kjp4.jpg",
+      "name": "minisumo.09(1).4o4v5mqp",
+      "category": "data",
+      "label": { "type": "label", "label": "minisumo" },
+      "boundingBoxes": [
+        {
+          "label": "MiniSumo",
+          "x": 33,
+          "y": 0,
+          "width": 525,
+          "height": 404,
+          "addedByHand": true
+        }
+      ]
+    },
+    {
+      "path": "data/minisumo.6113b7403a621-570(3).jpg.4o4v5p6o.ingestion-6d4b7975-8kjp4.jpg",
+      "name": "minisumo.6113b7403a621-570(3).4o4v5p6o",
+      "category": "data",
+      "label": { "type": "label", "label": "minisumo" },
+      "boundingBoxes": [
+        {
+          "label": "MiniSumo",
+          "x": 50.17948717948718,
+          "y": 94.07692307692307,
+          "width": 589.9230769230769,
+          "height": 492.53846153846155,
+          "addedByHand": true
+        }
+      ]
+    },
+    {
+      "path": "data/minisumo.DSC01475(3).jpg.4o4v5qig.ingestion-6d4b7975-8kjp4.jpg",
+      "name": "minisumo.DSC01475(3).4o4v5qig",
+      "category": "data",
+      "label": { "type": "label", "label": "minisumo" },
+      "boundingBoxes": [
+        {
+          "label": "MiniSumo",
+          "x": 207.02106318956874,
+          "y": 0,
+          "width": 759.4784353059179,
+          "height": 518.7562688064193,
+          "addedByHand": true
+        }
+      ]
+    },
+    {
+      "path": "data/minisumo.D_NQ_NP_825287-MLM31799050662_08(1).jpg.4o4v5reh.ingestion-6d4b7975-gnhvp.jpg",
+      "name": "minisumo.D_NQ_NP_825287-MLM31799050662_08(1).4o4v5reh",
+      "category": "data",
+      "label": { "type": "label", "label": "minisumo" },
+      "boundingBoxes": [
+        {
+          "label": "MiniSumo",
+          "x": 20,
+          "y": 8,
+          "width": 434,
+          "height": 248,
+          "addedByHand": true
+        }
+      ]
+    },
+    {
+      "path": "data/minisumo.D_NQ_NP_825287-MLM31799050662_08(5).jpg.4o4v5rri.ingestion-6d4b7975-8kjp4.jpg",
+      "name": "minisumo.D_NQ_NP_825287-MLM31799050662_08(5).4o4v5rri",
+      "category": "data",
+      "label": { "type": "label", "label": "minisumo" },
+      "boundingBoxes": [
+        {
+          "label": "MiniSumo",
+          "x": 21,
+          "y": 8,
+          "width": 430,
+          "height": 248,
+          "addedByHand": true
+        }
+      ]
+    },
+    {
+      "path": "data/minisumo.HELEN-500x500.jpg.4o4v5tcb.ingestion-6d4b7975-2kjmn.jpg",
+      "name": "minisumo.HELEN-500x500.4o4v5tcb",
+      "category": "data",
+      "label": { "type": "label", "label": "minisumo" },
+      "boundingBoxes": [
+        {
+          "label": "MiniSumo",
+          "x": 16,
+          "y": 78,
+          "width": 471,
+          "height": 341,
+          "addedByHand": true
+        }
+      ]
+    },
+    {
+      "path": "data/minisumo.KAI-mini-sumo-robot-Edgar-Galvan(1).jpg.4o4v5vgh.ingestion-6d4b7975-gnhvp.jpg",
+      "name": "minisumo.KAI-mini-sumo-robot-Edgar-Galvan(1).4o4v5vgh",
+      "category": "data",
+      "label": { "type": "label", "label": "minisumo" },
+      "boundingBoxes": [
+        {
+          "label": "MiniSumo",
+          "x": 442.9160935350757,
+          "y": 85.28198074277854,
+          "width": 1270.9766162310868,
+          "height": 1127.922971114168,
+          "addedByHand": true
+        }
+      ]
+    },
+    {
+      "path": "data/minisumo.KAI-mini-sumo-robot-Edgar-Galvan(7).jpg.4o4v60i0.ingestion-6d4b7975-2kjmn.jpg",
+      "name": "minisumo.KAI-mini-sumo-robot-Edgar-Galvan(7).4o4v60i0",
+      "category": "data",
+      "label": { "type": "label", "label": "minisumo" },
+      "boundingBoxes": [
+        {
+          "label": "MiniSumo",
+          "x": 356.7964236588721,
+          "y": 348.6354883081155,
+          "width": 1201.9834938101787,
+          "height": 1024.8170563961485,
+          "addedByHand": true
+        }
+      ]
+    },
+
+    {
+      "path": "data/matador-flag-system-3197-11-O (1).jpg.5kfduvmr.ingestion-6896bd9b94-vxnqr.jpg",
+      "name": "matador-flag-system-3197-11-O (1)",
+      "category": "data",
+      "label": {
+        "type": "label",
+        "label": "matador-flag-system-3197-11-O (1)"
+      },
+      "boundingBoxes": [
+        { "label": "Flag", "x": 121, "y": 12, "width": 158, "height": 158 }
+      ]
+    },
+    {
+      "path": "data/OIP (2) (4).jpg.5kfduvrp.ingestion-6896bd9b94-4hrmw.jpg",
+      "name": "OIP (2) (4)",
+      "category": "data",
+      "label": { "type": "label", "label": "OIP (2) (4)" },
+      "boundingBoxes": [
+        { "label": "Flag", "x": 4, "y": 107, "width": 230, "height": 253 },
+        { "label": "Flag", "x": 235, "y": 105, "width": 224, "height": 260 }
+      ]
+    },
+    {
+      "path": "data/flag1.jpg.5kfduvrm.ingestion-6896bd9b94-4hrmw.jpg",
+      "name": "flag1",
+      "category": "data",
+      "label": { "type": "label", "label": "flag1" },
+      "boundingBoxes": [
+        { "label": "Flag", "x": 117, "y": 70, "width": 151, "height": 169 },
+        { "label": "Flag", "x": 302, "y": 53, "width": 143, "height": 192 },
+        { "label": "Flag", "x": 46, "y": 221, "width": 213, "height": 244 },
+        { "label": "Flag", "x": 257, "y": 235, "width": 208, "height": 218 }
+      ]
+    },
+    {
+      "path": "data/Screenshot (349) (1).png.5kfdv06h.ingestion-6896bd9b94-vxnqr.jpg",
+      "name": "Screenshot (349) (1)",
+      "category": "data",
+      "label": { "type": "label", "label": "Screenshot (349) (1)" },
+      "boundingBoxes": [
+        { "label": "Flag", "x": 297, "y": 11, "width": 187, "height": 171 },
+        { "label": "MiniSumo", "x": 281, "y": 198, "width": 276, "height": 199 }
+      ]
+    },
+    {
+      "path": "data/Screenshot (350) (3).png.5kfdv0b3.ingestion-6896bd9b94-vxnqr.jpg",
+      "name": "Screenshot (350) (3)",
+      "category": "data",
+      "label": { "type": "label", "label": "Screenshot (350) (3)" },
+      "boundingBoxes": [
+        { "label": "MiniSumo", "x": 183, "y": 45, "width": 264, "height": 171 },
+        { "label": "Flag", "x": 107, "y": 163, "width": 171, "height": 101 },
+        { "label": "Flag", "x": 358, "y": 219, "width": 143, "height": 185 }
+      ]
+    },
+    {
+      "path": "data/sumo99_png.rf.ae088a40d9c8a744086cdd990d81689a.jpg.648fge58.ingestion-5654c8855b-t5dfc.jpg",
+      "name": "sumo99_png.rf.ae088a40d9c8a744086cdd990d81689a",
+      "category": "data",
+      "label": { "type": "label", "label": "sumo99_png" },
+      "boundingBoxes": [
+        { "label": "MiniSumo", "x": 352, "y": 395, "width": 120, "height": 88 },
+        { "label": "MiniSumo", "x": 380, "y": 305, "width": 82, "height": 68 },
+        { "label": "Flag", "x": 316, "y": 300, "width": 22, "height": 60 },
+        { "label": "Flag", "x": 465, "y": 331, "width": 35, "height": 73 }
+      ]
+    },
+    {
+      "path": "data/OIP (2) (1).jpg.5kfduvdm.ingestion-6896bd9b94-vxnqr.jpg",
+      "name": "OIP (2) (1)",
+      "category": "data",
+      "label": { "type": "label", "label": "OIP (2) (1)" },
+      "boundingBoxes": [
+        { "label": "Flag", "x": 0, "y": 120, "width": 228, "height": 220 },
+        { "label": "Flag", "x": 232, "y": 120, "width": 224, "height": 219 }
+      ]
+    },
+    {
+      "path": "data/flag2.jpg.5kfduvi7.ingestion-6896bd9b94-7mtrf.jpg",
+      "name": "flag2",
+      "category": "data",
+      "label": { "type": "label", "label": "flag2" },
+      "boundingBoxes": [
+        { "label": "Flag", "x": 10, "y": 6, "width": 205, "height": 226 },
+        { "label": "Flag", "x": 217, "y": 0, "width": 208, "height": 241 },
+        { "label": "Flag", "x": 13, "y": 243, "width": 170, "height": 157 },
+        { "label": "Flag", "x": 194, "y": 256, "width": 169, "height": 135 }
+      ]
+    }
+    ]
+
+
+}
