@@ -16,22 +16,39 @@ class BoundingBoxImageFolder(ImageFolder):
             loader=default_loader, 
             is_valid_file = None
         ):
-            super().__init__(
-                root=img_dir,
-                transform=transform,
-                target_transform=target_transform,
-                loader=loader,
-                is_valid_file=is_valid_file
-            )
+            # super().__init__(
+            #     root=img_dir,
+            #     transform=transform,
+            #     target_transform=target_transform,
+            #     loader=loader,
+            #     is_valid_file=is_valid_file
+            # )
             self.img_dir = img_dir
             self.json_dir = json_dir
-            
+
             # Get list of all image filenames
             self.img_files = [f for f in os.listdir(img_dir) if f.endswith('.png') or f.endswith('.jpg')]
             # Assuming JSON filenames match image filenames (e.g., image.jpg -> image.json)
         
     
     def find_bounding_boxes(self, json_dir):
+
+        # Open the json
+        # Read the json 
+        # for each element in json:
+            # find the "BoundingBoxes" tag
+            # extract information TODO: what is the relevant info and what do we achieve with it?
+            # call function to process the data and fetch results
+            # contain processed data in tensor/matrix whatever
+            # return output to feed into make_dataset
+
+
+             
+        with open("Dataset\\DatasetSample.json", "r") as file:
+                data = json.load(file)
+
+        print(data['files'][0]["boundingBoxes"]) # the zero will be the iterable variable that we will use of the for loop
+
         return
 
     def make_dataset(self, ):
@@ -82,3 +99,6 @@ class BoundingBoxImageFolder(ImageFolder):
 #         # the same transformation to both the image and the bounding boxes.
 #         # Torchvision's new transforms API handles this with tv_tensors.
 #         image, target = self.transform(image, target)
+
+obj = BoundingBoxImageFolder(None,None,None,None,None,None)
+obj.find_bounding_boxes(1)
