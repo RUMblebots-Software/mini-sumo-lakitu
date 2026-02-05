@@ -34,13 +34,18 @@ class BoundingBoxImageFolder(ImageFolder):
     def find_bounding_boxes(self, json_dir):
          
         with open(json_dir, "r") as file:
-                data = json.load(file)        
+                data = json.load(file)   
+        # The differnt classes found in bounding boxes are stored in this array
         classList = []
+        # Here class index pairs will be stored. Key = Class/label; value = enumeration of the class
         classToIndex = dict()
+
+        # Goes through all image dictionaries in the json
         for image in data['files']:
            
             boundingBoxesPerImage = len(image['boundingBoxes'])
 
+            # for images with multiple bounding boxes
             if(boundingBoxesPerImage > 1):
                
                 for boxes in image['boundingBoxes']:
@@ -49,9 +54,11 @@ class BoundingBoxImageFolder(ImageFolder):
                         classList.append(boxes["label"])
                         classToIndex[boxes["label"]] = len(classToIndex)
 
+            # for images with a single bounding box
             else:                 
-
+                # image[boundingBoxes][0] accesses the only dictionary available 
                 if(image['boundingBoxes'][0]["label"] not in classList):
+
                     classList.append(image['boundingBoxes'][0]["label"]) 
                     classToIndex[image['boundingBoxes'][0]["label"]] = len(classToIndex)
         
@@ -60,7 +67,7 @@ class BoundingBoxImageFolder(ImageFolder):
     def make_dataset(self, json_dir,classToIndex):
         """
         returns a list -> [img, indx, (x,y,w,h)]
-        classToIndex is ([label types],{label with enumeration})
+        classToIndex is ([label types],{label with enumeration}) and is a result of calling Find_bouding_Boxes
         """
 
         # Iterate in the different paths in the json 
@@ -69,17 +76,18 @@ class BoundingBoxImageFolder(ImageFolder):
 
         instaces = []
 
+         # Goes through all image dictionaries in the json
         for image in data["files"]:
+
             path = image["path"]
 
             for boxes in image["boundingBoxes"]:
 
+                # classToIndex is a tupple (class Array, {class : enumeration} )
                 idx = classToIndex[1][boxes["label"]]
+
                 coords = tuple([boxes["x"],boxes["y"],boxes["width"],boxes["height"]])
                 instaces.append(tuple([path,idx,coords]))
-
-        # path -> boundingbox ---> paths can be repeated but bounding boxes not
-        # return an array of tuple(path,idx,coords(x,y,w,h))
 
         self.samples = instaces
 
