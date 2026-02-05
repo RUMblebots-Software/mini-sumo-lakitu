@@ -35,7 +35,7 @@ class BoundingBoxImageFolder(ImageFolder):
          
         with open(json_dir, "r") as file:
                 data = json.load(file)        
-        tempArray = []
+        classList = []
         classToIndex = dict()
         for image in data['files']:
            
@@ -45,20 +45,44 @@ class BoundingBoxImageFolder(ImageFolder):
                
                 for boxes in image['boundingBoxes']:
                     
-                    if(boxes["label"] not in tempArray):
-                        tempArray.append(boxes["label"])
+                    if(boxes["label"] not in classList):
+                        classList.append(boxes["label"])
                         classToIndex[boxes["label"]] = len(classToIndex)
 
             else:                 
 
-                if(image['boundingBoxes'][0]["label"] not in tempArray):
-                    tempArray.append(image['boundingBoxes'][0]["label"]) 
+                if(image['boundingBoxes'][0]["label"] not in classList):
+                    classList.append(image['boundingBoxes'][0]["label"]) 
                     classToIndex[image['boundingBoxes'][0]["label"]] = len(classToIndex)
         
-        return (tempArray, classToIndex)
+        return (classList, classToIndex)
 
     def make_dataset(self, json_dir,classToIndex):
-        return
+
+        # Iterate in the different paths in the json 
+        with open(json_dir,"r") as file:
+             data = json.load(file)
+
+        pathArray = []
+
+        for image in data["files"]:
+            path = image["path"]
+
+            for boxes in image["boundingBoxes"]:
+
+                idx = classToIndex[1][boxes["label"]]
+                coords = tuple([boxes["x"],boxes["y"],boxes["width"],boxes["height"]])
+                pathArray.append(tuple([path,idx,coords]))
+
+        # path -> boundingbox ---> paths can be repeated but bounding boxes not
+        # return an array of tuple(path,idx,coords(x,y,w,h))
+
+        return pathArray
+
+
+
+
+
 
     def __len__(self):
         return len(self.img_files)
@@ -107,4 +131,5 @@ class BoundingBoxImageFolder(ImageFolder):
 #         image, target = self.transform(image, target)
 
 obj = BoundingBoxImageFolder(None,None,None,None,None,None)
-print(obj.find_bounding_boxes("Dataset\\DatasetSample.json"))
+json_dir = "Dataset\\DatasetSample.json"
+print(obj.make_dataset(json_dir, obj.find_bounding_boxes(json_dir)))
