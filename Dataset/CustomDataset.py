@@ -58,6 +58,10 @@ class BoundingBoxImageFolder(ImageFolder):
         return (classList, classToIndex)
 
     def make_dataset(self, json_dir,classToIndex):
+        """
+        returns a list -> [img, indx, (x,y,w,h)]
+        classToIndex is ([label types],{label with enumeration})
+        """
 
         # Iterate in the different paths in the json 
         with open(json_dir,"r") as file:
@@ -135,3 +139,8 @@ class BoundingBoxImageFolder(ImageFolder):
 obj = BoundingBoxImageFolder(None,None,None,None,None,None)
 json_dir = "Dataset\\DatasetSample.json"
 print(obj.make_dataset(json_dir, obj.find_bounding_boxes(json_dir)))
+
+
+
+
+# ('data/minisumo.09(1).jpg.4o4v5mqp.ingestion-6d4b7975-8kjp4.jpg', 0, (33, 0, 525, 404)), 
