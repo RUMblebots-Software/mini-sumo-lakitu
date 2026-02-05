@@ -36,7 +36,7 @@ class BoundingBoxImageFolder(ImageFolder):
         with open(json_dir, "r") as file:
                 data = json.load(file)        
         tempArray = []
-        enumerator = dict()
+        classToIndex = dict()
         for image in data['files']:
            
             boundingBoxesPerImage = len(image['boundingBoxes'])
@@ -47,17 +47,17 @@ class BoundingBoxImageFolder(ImageFolder):
                     
                     if(boxes["label"] not in tempArray):
                         tempArray.append(boxes["label"])
-                        enumerator[boxes["label"]] = len(enumerator)
+                        classToIndex[boxes["label"]] = len(classToIndex)
 
             else:                 
-                
+
                 if(image['boundingBoxes'][0]["label"] not in tempArray):
                     tempArray.append(image['boundingBoxes'][0]["label"]) 
-                    enumerator[image['boundingBoxes'][0]["label"]] = len(enumerator)
+                    classToIndex[image['boundingBoxes'][0]["label"]] = len(classToIndex)
         
-        return (tempArray, enumerator)
+        return (tempArray, classToIndex)
 
-    def make_dataset(self, ):
+    def make_dataset(self, json_dir,classToIndex):
         return
 
     def __len__(self):
