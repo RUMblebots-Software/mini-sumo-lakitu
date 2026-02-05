@@ -63,7 +63,7 @@ class BoundingBoxImageFolder(ImageFolder):
         with open(json_dir,"r") as file:
              data = json.load(file)
 
-        pathArray = []
+        instaces = []
 
         for image in data["files"]:
             path = image["path"]
@@ -72,12 +72,14 @@ class BoundingBoxImageFolder(ImageFolder):
 
                 idx = classToIndex[1][boxes["label"]]
                 coords = tuple([boxes["x"],boxes["y"],boxes["width"],boxes["height"]])
-                pathArray.append(tuple([path,idx,coords]))
+                instaces.append(tuple([path,idx,coords]))
 
         # path -> boundingbox ---> paths can be repeated but bounding boxes not
         # return an array of tuple(path,idx,coords(x,y,w,h))
 
-        return pathArray
+        self.samples = instaces
+
+        return instaces
 
 
 
