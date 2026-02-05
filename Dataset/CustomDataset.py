@@ -32,32 +32,30 @@ class BoundingBoxImageFolder(ImageFolder):
         
     
     def find_bounding_boxes(self, json_dir):
-
-        # Open the json
-        # Read the json 
-        # for each element in json:
-            # find the "BoundingBoxes" tag
-            # extract information TODO: what is the relevant info and what do we achieve with it?
-            # call function to process the data and fetch results
-            # contain processed data in tensor/matrix whatever
-            # return output to feed into make_dataset             
+         
         with open(json_dir, "r") as file:
                 data = json.load(file)        
-        
+        tempArray = []
+        enumerator = dict()
         for image in data['files']:
-            # NOTE: if there are multiple bounding boxes in the same image we can access them by image['boundingBoxes'][index]
+           
             boundingBoxesPerImage = len(image['boundingBoxes'])
 
             if(boundingBoxesPerImage > 1):
-                print(f"This has {boundingBoxesPerImage} boxes\n")
+               
                 for boxes in image['boundingBoxes']:
                     
-                    print(boxes)
+                    if(boxes["label"] not in tempArray):
+                        tempArray.append(boxes["label"])
+                        enumerator[boxes["label"]] = len(enumerator)
 
             else:                 
-                print(image['boundingBoxes'])  
+                
+                if(image['boundingBoxes'][0]["label"] not in tempArray):
+                    tempArray.append(image['boundingBoxes'][0]["label"]) 
+                    enumerator[image['boundingBoxes'][0]["label"]] = len(enumerator)
         
-        return
+        return (tempArray, enumerator)
 
     def make_dataset(self, ):
         return
@@ -109,4 +107,4 @@ class BoundingBoxImageFolder(ImageFolder):
 #         image, target = self.transform(image, target)
 
 obj = BoundingBoxImageFolder(None,None,None,None,None,None)
-obj.find_bounding_boxes("Dataset\\DatasetSample.json")
+print(obj.find_bounding_boxes("Dataset\\DatasetSample.json"))
