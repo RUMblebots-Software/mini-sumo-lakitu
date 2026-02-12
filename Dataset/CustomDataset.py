@@ -81,8 +81,10 @@ class BoundingBoxImageFolder(ImageFolder):
          # Goes through all image dictionaries in the json
         for image in data["files"]:
 
-            path = image["path"]
-
+            # path = image["path"]
+            
+            path = "G:\\Shared drives\\RB\\2025-2026\\Spring 2026\\Software\\MiniSumoDataset\\" + image["path"].replace("/", "\\")
+            
             for boxes in image["boundingBoxes"]:
 
                 # classToIndex is a tupple (class Array, {class : enumeration} )
@@ -112,7 +114,7 @@ class BoundingBoxImageFolder(ImageFolder):
 
     def load_instance(self,instance):
         # instance values  were hardcoded temporarly to prove the func works, current error: permission error
-        path,label, (x,y,w,h) = "G:\\Shared drives\\RB\\2025-2026\\Spring 2026\\Software\\MiniSumoDataset\\data\\minisumo.193922a4b975d7b3a13fd5a739fddc49(2).jpg.4o4v5ifd.ingestion-6d4b7975-2kjmn.jpg",0,(93,59,458,341)
+        path,label, (x,y,w,h) = instance
         img = Image.open(path).convert("RGB")
         imgTensor = transforms.ToTensor()(img)
 
@@ -129,11 +131,6 @@ class BoundingBoxImageFolder(ImageFolder):
         }
 
         return imgTensor, target
-
-    
-
-
-
 
     def __len__(self):
         return len(self.img_files)
@@ -182,12 +179,16 @@ class BoundingBoxImageFolder(ImageFolder):
 #         image, target = self.transform(image, target)
 
 obj = BoundingBoxImageFolder(None,None,None,None,None,None)
-json_dir = "Dataset\\DatasetSample.json"
+json_dir = "G:\\Shared drives\\RB\\2025-2026\\Spring 2026\\Software\\MiniSumoDataset\\info.json"
 imageInstancesArray = obj.make_dataset(json_dir, obj.find_bounding_boxes(json_dir))
 
-print(obj.load_instance(imageInstancesArray))
+# print(imageInstancesArray)
+
+print(obj.create_tensors(imageInstancesArray))
 
 
 
 
 # ('data/minisumo.09(1).jpg.4o4v5mqp.ingestion-6d4b7975-8kjp4.jpg', 0, (33, 0, 525, 404)), 
+
+# "G:\\Shared drives\\RB\\2025-2026\\Spring 2026\\Software\\MiniSumoDataset\\data\\
