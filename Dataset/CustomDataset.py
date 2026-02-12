@@ -1,4 +1,6 @@
 import torch
+from torchvision import transforms
+from PIL import Image
 from torch.utils.data import Dataset
 from torchvision.datasets import ImageFolder
 from torchvision.datasets.folder import default_loader
@@ -92,8 +94,43 @@ class BoundingBoxImageFolder(ImageFolder):
         self.samples = instaces
 
         return instaces
+    
+    def create_tensors(self,instances):
+
+        instancesList = []
+
+        for instance in instances:
+            instancesList.append(self.load_instance(instance))
+        
+        return instancesList
 
 
+    def xywh_to_xyxy(self,box):
+        x, y, w, h = box
+        return [x, y, x+w, y+h]
+        
+
+    def load_instance(self,instance):
+        # instance values  were hardcoded temporarly to prove the func works, current error: permission error
+        path,label, (x,y,w,h) = "G:\\Shared drives\\RB\\2025-2026\\Spring 2026\\Software\\MiniSumoDataset\\data\\minisumo.193922a4b975d7b3a13fd5a739fddc49(2).jpg.4o4v5ifd.ingestion-6d4b7975-2kjmn.jpg",0,(93,59,458,341)
+        img = Image.open(path).convert("RGB")
+        imgTensor = transforms.ToTensor()(img)
+
+
+        box_xyxy = self.xywh_to_xyxy((x,y,w,h))
+        
+        boxes = torch.tensor([box_xyxy],dtype=torch.float32)
+
+        labels = torch.tensor([label],dtype=torch.int64)
+
+        target = {
+            "boundingBoxes" : boxes,
+            "label" : labels
+        }
+
+        return imgTensor, target
+
+    
 
 
 
@@ -146,7 +183,9 @@ class BoundingBoxImageFolder(ImageFolder):
 
 obj = BoundingBoxImageFolder(None,None,None,None,None,None)
 json_dir = "Dataset\\DatasetSample.json"
-print(obj.make_dataset(json_dir, obj.find_bounding_boxes(json_dir)))
+imageInstancesArray = obj.make_dataset(json_dir, obj.find_bounding_boxes(json_dir))
+
+print(obj.load_instance(imageInstancesArray))
 
 
 

@@ -1,7 +1,1 @@
-super().__init__(
-                root=img_dir,
-                transform=transform,
-                target_transform=target_transform,
-                loader=loader,
-                is_valid_file=is_valid_file
-            )
+G:\\Shared drives\\RB\\2025-2026\\Spring 2026\\Software\\MiniSumoDataset
