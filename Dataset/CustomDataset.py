@@ -98,6 +98,12 @@ class BoundingBoxImageFolder(ImageFolder):
         return instaces
     
     def create_tensors(self,instances):
+        """
+        Description
+        
+        :param instances: 
+        :returns instance list: a list containtaining all images in RGB with their target
+        """
 
         instancesList = []
 
@@ -113,7 +119,13 @@ class BoundingBoxImageFolder(ImageFolder):
         
 
     def load_instance(self,instance):
-        # instance values  were hardcoded temporarly to prove the func works, current error: permission error
+        """
+        Descripion
+        
+        
+        :param instance: a single image instance (tuple) with elements (path,label index, coordinates)
+        :returns: a cropped image in RGB and the target within the image
+        """
         path,label, (x,y,w,h) = instance
         img = Image.open(path).convert("RGB")
         imgTensor = transforms.ToTensor()(img)
