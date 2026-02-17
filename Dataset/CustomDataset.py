@@ -1,22 +1,24 @@
 import torch
 from torchvision import transforms
 from PIL import Image
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, dataloader
 from torchvision.datasets import ImageFolder
 from torchvision.datasets.folder import default_loader
 from PIL import Image
 import json
-import os
+import cv2
+import numpy as np
 
 class BoundingBoxImageFolder(ImageFolder):
     def __init__(
             self, 
+            instance,
             img_dir, 
             json_dir, 
             transform=None, 
             target_transform=None, 
             loader=default_loader, 
-            is_valid_file = None
+            is_valid_file = None,
         ):
             # super().__init__(
             #     root=img_dir,
@@ -27,10 +29,8 @@ class BoundingBoxImageFolder(ImageFolder):
             # )
             self.img_dir = img_dir
             self.json_dir = json_dir
-
-            # Get list of all image filenames
-            self.img_files = [f for f in os.listdir(img_dir) if f.endswith('.png') or f.endswith('.jpg')]
-            # Assuming JSON filenames match image filenames (e.g., image.jpg -> image.json)
+            self.instance = instance
+            
         
     
     def find_bounding_boxes(self, json_dir):
@@ -127,56 +127,50 @@ class BoundingBoxImageFolder(ImageFolder):
         :returns: a cropped image in RGB and the target within the image
         """
         path,label, (x,y,w,h) = instance
+        
         img = Image.open(path).convert("RGB")
+        img = np.array(img)
+
+        img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
+        box_xyxy = self.xywh_to_xyxy((x,y,w,h))
+
+
+        y_start = int(box_xyxy[1])
+        y_end = int(box_xyxy[3])
+        x_start = int(box_xyxy[0])
+        x_end = int(box_xyxy[2])
+        croppedIMG = img[y_start:y_end,x_start:x_end]
+        img = croppedIMG
+        # debug images
+        # cv2.imshow("Before RGB", np.array(Image.open(path)))
+        # cv2.imshow("Original Image", img)
+        # cv2.imshow("Cropped Image", croppedIMG)
+        
+        # # Wait for a key press and then close windows
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
+
         imgTensor = transforms.ToTensor()(img)
 
 
-        box_xyxy = self.xywh_to_xyxy((x,y,w,h))
-        
-        boxes = torch.tensor([box_xyxy],dtype=torch.float32)
 
         labels = torch.tensor([label],dtype=torch.int64)
 
-        target = {
-            "boundingBoxes" : boxes,
-            "label" : labels
-        }
 
-        return imgTensor, target
+        self.dataset = [imgTensor, labels]
+
+        return self.dataset
+
 
     def __len__(self):
         return len(self.img_files)
 
     def __getitem__(self, idx):
-        img_name = self.img_files[idx]
-        img_path = os.path.join(self.img_dir, img_name)
+
+        imgTensor, target = self.dataset[idx]
+
         
-        # Construct the JSON filename (adjust extension as needed)
-        json_name = os.path.splitext(img_name)[0] + '.json'
-        json_path = os.path.join(self.json_dir, json_name)
-
-        # Load image
-        image = Image.open(img_path).convert("RGB")
-
-        # Load and parse JSON bounding box data
-        with open(json_path, 'r') as f:
-            annotation = json.load(f)
-        
-        # Extract bounding boxes (assuming a specific JSON structure)
-        # You will need to adapt this part to your specific JSON format
-        boxes = [obj['bbox'] for obj in annotation['objects']] # Example structure
-        # Convert to a PyTorch tensor, ensuring correct format (e.g., XYXY)
-        boxes = torch.as_tensor(boxes, dtype=torch.float32)
-        
-        # Create a dictionary for the target (annotations)
-        target = {}
-        target["boxes"] = boxes
-        # Add other relevant information like labels, image_id, etc.
-        # target["labels"] = torch.as_tensor([obj['label'] for obj in annotation['objects']], dtype=torch.int64)
-
-
-
-        return image, target
+        return imgTensor, target
 
 
 
@@ -190,7 +184,7 @@ class BoundingBoxImageFolder(ImageFolder):
 #         # Torchvision's new transforms API handles this with tv_tensors.
 #         image, target = self.transform(image, target)
 
-obj = BoundingBoxImageFolder(None,None,None,None,None,None)
+obj = BoundingBoxImageFolder(None,None,None,None,None,None,None)
 json_dir = "G:\\Shared drives\\RB\\2025-2026\\Spring 2026\\Software\\MiniSumoDataset\\info.json"
 imageInstancesArray = obj.make_dataset(json_dir, obj.find_bounding_boxes(json_dir))
 
