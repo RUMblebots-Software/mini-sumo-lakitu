@@ -124,7 +124,7 @@ class BoundingBoxImageFolder(ImageFolder):
         
         
         :param instance: a single image instance (tuple) with elements (path,label index, coordinates)
-        :returns: a cropped image in RGB and the target within the image
+        :returns: a cropped image in RGB and the label of the cropped image
         """
         path,label, (x,y,w,h) = instance
         
