@@ -11,11 +11,11 @@ from torchvision.datasets.folder import default_loader
 
 class BoundingBoxImageFolder(VisionDataset):
     """
-    Dataset that reads image paths + bounding boxes from a JSON file
+    Dataset that reads image `paths + bounding boxes` from a JSON file
     and behaves similarly to torchvision.datasets.ImageFolder.
 
     Expected JSON format:
-    {
+    ```{
         "files": [
             {
                 "path": "relative/path/to/image.jpg",
@@ -31,6 +31,7 @@ class BoundingBoxImageFolder(VisionDataset):
             }
         ]
     }
+    ```
     """
 
     def __init__(
