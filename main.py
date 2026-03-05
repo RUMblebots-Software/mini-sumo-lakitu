@@ -11,7 +11,7 @@ targets = ds.targets
 mode = ds.mode
 split_ratios  = {'train': 0.8, 'val': 0.1, 'test': 0.1}
 
-def count_splits(mode, split_ratios, targets, random_state):    
+def load_splits(mode, split_ratios, targets, random_state):    
 
     train_idx, temp_idx = train_test_split(
         np.arange(len(targets)),
@@ -40,5 +40,5 @@ def count_splits(mode, split_ratios, targets, random_state):
     print(f"Test Dataloader created with {len(data_loader_test)} samples.")
 
 
-count_splits(mode, split_ratios,targets, random_state=18)
+load_splits(mode, split_ratios,targets, random_state=18)
 
