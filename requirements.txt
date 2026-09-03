@@ -4,3 +4,4 @@ tqdm
 torchvision
 scikit-learn
 Pillow
+ultralytics
