@@ -1,0 +1,59 @@
+services:
+  # The Web-Based Version (for Mac/General)
+  robotics-web:
+    profiles: [ "web" ]
+    build: .
+    ports:
+      - "6080:6080"
+    volumes:
+      - ../ros2_ws:/root/Documents/ros2_ws
+
+  # The WSL GPU Version (for WSL)
+  robotics-wsl:
+    profiles: [ "wsl" ]
+    build: .
+    ipc: host
+    environment:
+      - DISPLAY=${DISPLAY}
+      - WAYLAND_DISPLAY=wayland-0
+      - XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir
+      - LD_LIBRARY_PATH=/usr/lib/wsl/lib
+      - GALLIUM_DRIVER=d3d12
+    volumes:
+      - ../ros2_ws:/root/Documents/ros2_ws
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /mnt/wslg:/mnt/wslg
+      - /usr/lib/wsl:/usr/lib/wsl
+    devices:
+      - /dev/dxg:/dev/dxg
+      - /dev/dri:/dev/dri
+
+    stdin_open: true
+    tty: true
+
+    group_add:
+      - video
+
+    command: /bin/bash
+
+  # The Native GPU Version (for Linux)
+  robotics-native:
+    profiles: [ "native" ]
+    build: .
+    environment:
+      - DISPLAY=${DISPLAY}
+      - WAYLAND_DISPLAY=wayland-0
+      - XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir
+      - QT_X11_NO_MITSHM=1
+  #--env="NVIDIA_VISIBLE_DEVICES=all" \
+  #--env="NVIDIA_DRIVER_CAPABILITIES=all" \
+        
+    volumes:
+
+      - ../ros2_ws:/root/Documents/ros2_ws
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw"
+    devices:
+      - /dev/dri:/dev/dri
+    stdin_open: true
+    tty: true
+    command: /bin/bash
