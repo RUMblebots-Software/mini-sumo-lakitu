@@ -1,4 +1,4 @@
-FROM osrf/ros:jazzy-desktop
+FROM osrf/ros:humble-desktop
 
 # Prevents interactive keyboard and timezone prompts
 ARG DEBIAN_FRONTEND=noninteractive
@@ -13,17 +13,17 @@ RUN apt-get update && apt-get install -y \
     xvfb \
     terminator \
     htop \
-    ros-jazzy-ros-gz \ 
-    ros-jazzy-xacro \
-    ros-jazzy-ros-gz-sim \
-    ros-jazzy-ros-gz-bridge \ 
-    ros-jazzy-ackermann-msgs \
+    ros-humble-ros-gz \ 
+    ros-humble-xacro \
+    ros-humble-ros-gz-sim \
+    ros-humble-ros-gz-bridge \ 
+    ros-humble-ackermann-msgs \
     libgl1 \ 
     libgl1 libglx-mesa0 \
     libgl1-mesa-dri \ 
     mesa-utils \
-    ros-jazzy-navigation2 \
-    ros-jazzy-nav2-bringup \
+    ros-humble-navigation2 \
+    ros-humble-nav2-bringup \
     && rm -rf /var/lib/apt/lists/*
 
 # Install prerequisites for downloading VS Code
@@ -59,7 +59,7 @@ RUN cat << 'EOF' >> /root/.bashrc
 # ==========================================
 
 # Sourcing ROS 2 & Workspace
-source /opt/ros/jazzy/setup.bash
+source /opt/ros/humble/setup.bash
 [ -f /root/Documents/ros2_ws/install/setup.bash ] && source /root/Documents/ros2_ws/install/setup.bash
 
 # Colcon Autocomplete
