@@ -57,25 +57,21 @@ RUN cat << 'EOF' >> /root/.bashrc
 # ==========================================
 # ROS 2 & Simulation Development Environment
 # ==========================================
-
-# Sourcing ROS 2 & Workspace
-source /opt/ros/humble/setup.bash
-[ -f /root/Documents/ros2_ws/install/setup.bash ] && source /root/Documents/ros2_ws/install/setup.bash
-
-# Colcon Autocomplete
-[ -f /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash ] && source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
-
 # Environment Settings
-export RCUTILS_COLORIZED_OUTPUT=1
-export ROS_DOMAIN_ID=0
+ENV RCUTILS_COLORIZED_OUTPUT=1 \
+    ROS_DOMAIN_ID=0
+# Sourcing ROS 2 & Workspace
+RUN echo "source /opt/ros/humble/setup.bash" \
+    echo "[ -f /root/Documents/ros2_ws/install/setup.bash ] && source /root/Documents/ros2_ws/install/setup.bash" \
+    # Colcon Autocomplete
+    echo [ -f /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash ] && source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash \
+    # Productivity Aliases
+    echo alias cb='cd /root/Documents/ros2_ws && colcon build --symlink-install && source install/setup.bash' \
+    echo alias cbp='cd /root/Documents/ros2_ws && colcon build --symlink-install --packages-select' \
+    echo alias ws='source /root/Documents/ros2_ws/install/setup.bash' \ 
+    echo alias killros='killall -9 gz-sim parameter_bridge rviz2 robot_state_publisher 2>/dev/null || true' \
+    echo alias teleop='ros2 run teleop_twist_keyboard teleop_twist_keyboard'
 
-# Productivity Aliases
-alias cb='cd /root/Documents/ros2_ws && colcon build --symlink-install && source install/setup.bash'
-alias cbp='cd /root/Documents/ros2_ws && colcon build --symlink-install --packages-select'
-alias ws='source /root/Documents/ros2_ws/install/setup.bash'
-alias killros='killall -9 gz-sim parameter_bridge rviz2 robot_state_publisher 2>/dev/null || true'
-alias teleop='ros2 run teleop_twist_keyboard teleop_twist_keyboard'
-
-EOF
+# EOF
 
 CMD ["/startup.sh"]
