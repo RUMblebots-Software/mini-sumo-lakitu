@@ -1,4 +1,4 @@
-FROM osrf/ros:humble-desktop
+FROM osrf/ros:humble-desktop-full
 
 # Prevents interactive keyboard and timezone prompts
 ARG DEBIAN_FRONTEND=noninteractive
