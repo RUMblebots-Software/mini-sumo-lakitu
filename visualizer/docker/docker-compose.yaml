@@ -26,7 +26,6 @@ services:
       - /usr/lib/wsl:/usr/lib/wsl
     devices:
       - /dev/dxg:/dev/dxg
-      - /dev/dri:/dev/dri
 
     stdin_open: true
     tty: true
@@ -52,8 +51,6 @@ services:
 
       - ../ros2_ws:/root/Documents/ros2_ws
       - /tmp/.X11-unix:/tmp/.X11-unix:rw"
-    devices:
-      - /dev/dri:/dev/dri
     stdin_open: true
     tty: true
     command: /bin/bash
