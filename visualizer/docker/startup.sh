@@ -1,16 +1,27 @@
-#!/bin/bash
-# Start the virtual display (monitor)
-Xvfb :0 -screen 0 1280x800x24 &
-export DISPLAY=:0
+#!/usr/bin/env bash
+set -e
 
-# Give Xvfb time to initialize
-sleep 2
+export DISPLAY="${DISPLAY:-:0}"
+export XDG_RUNTIME_DIR=/tmp/runtime-root
 
-# Start the XFCE visual desktop
-startxfce4 &
+mkdir -p "$XDG_RUNTIME_DIR"
+chmod 700 "$XDG_RUNTIME_DIR"
 
-# Start the VNC server to capture the virtual display
-x11vnc -display :0 -nopw -listen localhost -xkb -forever &
+Xvfb "$DISPLAY" -screen 0 1280x800x24 +extension GLX +render -noreset &
 
-# Start noVNC to bridge the VNC stream to a web browser
-websockify --web /usr/share/novnc/ 6080 localhost:5900
+until xdpyinfo -display "$DISPLAY" >/dev/null 2>&1; do
+  sleep 0.2
+done
+
+dbus-launch --exit-with-session startxfce4 &
+
+x11vnc \
+  -display "$DISPLAY" \
+  -nopw \
+  -listen localhost \
+  -xkb \
+  -forever \
+  -shared \
+  -rfbport 5900 &
+
+exec websockify --web /usr/share/novnc 6080 localhost:5900

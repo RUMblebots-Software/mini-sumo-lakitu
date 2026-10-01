@@ -1,24 +1,30 @@
 services:
-  # The Web-Based Version (for Mac/General)
   robotics-web:
-    profiles: [ "web" ]
+    profiles: ["web"]
     build: .
     ports:
-      - "6080:6080"
+      - "127.0.0.1:6080:6080"
+    environment:
+      DISPLAY: ":0"
+      LIBGL_ALWAYS_SOFTWARE: "1"
+      QT_X11_NO_MITSHM: "1"
     volumes:
       - ../ros2_ws:/root/Documents/ros2_ws
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
 
-  # The WSL GPU Version (for WSL)
   robotics-wsl:
-    profiles: [ "wsl" ]
+    profiles: ["wsl"]
     build: .
     ipc: host
     environment:
-      - DISPLAY=${DISPLAY}
-      - WAYLAND_DISPLAY=wayland-0
-      - XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir
-      - LD_LIBRARY_PATH=/usr/lib/wsl/lib
-      - GALLIUM_DRIVER=d3d12
+      DISPLAY: ${DISPLAY}
+      WAYLAND_DISPLAY: wayland-0
+      XDG_RUNTIME_DIR: /mnt/wslg/runtime-dir
+      LD_LIBRARY_PATH: /usr/lib/wsl/lib
+      GALLIUM_DRIVER: d3d12
+      QT_X11_NO_MITSHM: "1"
     volumes:
       - ../ros2_ws:/root/Documents/ros2_ws
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -26,31 +32,26 @@ services:
       - /usr/lib/wsl:/usr/lib/wsl
     devices:
       - /dev/dxg:/dev/dxg
-
     stdin_open: true
     tty: true
-
     group_add:
       - video
-
     command: /bin/bash
 
-  # The Native GPU Version (for Linux)
   robotics-native:
-    profiles: [ "native" ]
+    profiles: ["native"]
     build: .
+    runtime: nvidia
     environment:
-      - DISPLAY=${DISPLAY}
-      - WAYLAND_DISPLAY=wayland-0
-      - XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir
-      - QT_X11_NO_MITSHM=1
-  #--env="NVIDIA_VISIBLE_DEVICES=all" \
-  #--env="NVIDIA_DRIVER_CAPABILITIES=all" \
-        
+      DISPLAY: ${DISPLAY}
+      QT_X11_NO_MITSHM: "1"
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: all
     volumes:
-
       - ../ros2_ws:/root/Documents/ros2_ws
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw"
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
     stdin_open: true
     tty: true
+    group_add:
+      - video
     command: /bin/bash

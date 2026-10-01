@@ -8,3 +8,12 @@ gst-launch-1.0 nvarguscamerasrc sensor-id=0 ! 'video/x-raw(memory:NVMM), width=1
 
 ```
 To change to the other camera change sensor-id to 1
+
+
+docker compose --profile native build robotics-native
+docker compose --profile native run --rm robotics-native
+
+
+echo "$DISPLAY"
+xhost +SI:localuser:root
+docker exec -it -e DISPLAY="$DISPLAY" 1dd04db80e2b bash
