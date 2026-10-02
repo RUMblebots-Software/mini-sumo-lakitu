@@ -1,4 +1,5 @@
-FROM arm64v8/ubuntu:22.04
+# Multi-arch base (was arm64v8/ubuntu): builds natively on Jetson (arm64) and WSL (amd64)
+FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV RCUTILS_COLORIZED_OUTPUT=1
@@ -36,9 +37,10 @@ RUN apt-get update && apt-get install -y \
     && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 \
     && rm -rf /var/lib/apt/lists/*
 
+# arch is detected at build time (arm64 on Jetson, amd64 on WSL)
 RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key \
     -o /usr/share/keyrings/ros-archive-keyring.gpg \
-    && echo "deb [arch=arm64 signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu jammy main" \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu jammy main" \
     > /etc/apt/sources.list.d/ros2.list
 
 RUN apt-get update && apt-get install -y \

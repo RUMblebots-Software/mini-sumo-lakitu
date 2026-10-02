@@ -10,10 +10,44 @@ gst-launch-1.0 nvarguscamerasrc sensor-id=0 ! 'video/x-raw(memory:NVMM), width=1
 To change to the other camera change sensor-id to 1
 
 
-docker compose --profile native build robotics-native
+## Running ROS2
+
+
+### Depricated version, not deleted for the record
+```docker compose --profile native build robotics-native
+
 docker compose --profile native run --rm robotics-native
 
 
 echo "$DISPLAY"
 xhost +SI:localuser:root
 docker exec -it -e DISPLAY="$DISPLAY" 1dd04db80e2b bash
+```
+
+### Updated Version
+
+To run on wsl:
+
+```
+cd /path/to/your/folder
+chmod +x run.sh startup.sh
+
+# Build
+docker compose --profile wsl build
+
+# Build if needed, start, and open a shell
+./run.sh
+``` 
+
+To run on Jetson (untested)
+
+```
+cd /path/to/your/folder
+chmod +x run.sh startup.sh
+
+# Build (slow the first time)
+docker compose --profile native build        # or: docker-compose --profile native build
+
+# Build if needed, start, and open a shell
+./run.sh
+``` 

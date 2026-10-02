@@ -1,4 +1,5 @@
 services:
+  # Browser desktop (Xvfb + noVNC), software rendering. Works anywhere.
   robotics-web:
     profiles: ["web"]
     build: .
@@ -14,12 +15,13 @@ services:
     tty: true
     restart: unless-stopped
 
+  # WSL2 + WSLg (GPU via d3d12)
   robotics-wsl:
     profiles: ["wsl"]
     build: .
     ipc: host
     environment:
-      DISPLAY: ${DISPLAY}
+      DISPLAY: ${DISPLAY:-:0}
       WAYLAND_DISPLAY: wayland-0
       XDG_RUNTIME_DIR: /mnt/wslg/runtime-dir
       LD_LIBRARY_PATH: /usr/lib/wsl/lib
@@ -38,12 +40,13 @@ services:
       - video
     command: /bin/bash
 
+  # Jetson / native Linux with NVIDIA runtime (needs `xhost +SI:localuser:root` on the host)
   robotics-native:
     profiles: ["native"]
     build: .
     runtime: nvidia
     environment:
-      DISPLAY: ${DISPLAY}
+      DISPLAY: ${DISPLAY:-:0}
       QT_X11_NO_MITSHM: "1"
       NVIDIA_VISIBLE_DEVICES: all
       NVIDIA_DRIVER_CAPABILITIES: all
