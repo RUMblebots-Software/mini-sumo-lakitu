@@ -40,18 +40,21 @@ services:
       - video
     command: /bin/bash
 
-  # Jetson / native Linux with NVIDIA runtime (needs `xhost +SI:localuser:root` on the host)
+  # Native desktop with Mesa CPU rendering; launch with bash run-native.sh.
   robotics-native:
     profiles: ["native"]
     build: .
+    # Bypass NVIDIA's runtime even when it is Docker's default on Jetson.
+    runtime: runc
     environment:
       DISPLAY: ${DISPLAY:-:0}
       QT_X11_NO_MITSHM: "1"
       LIBGL_ALWAYS_SOFTWARE: "1"
+      __GLX_VENDOR_LIBRARY_NAME: mesa
       XDG_RUNTIME_DIR: /tmp/runtime-root
     volumes:
       - ../ros2_ws:/root/Documents/ros2_ws
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
     stdin_open: true
     tty: true
     group_add:
