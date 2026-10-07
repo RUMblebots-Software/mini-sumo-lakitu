@@ -40,7 +40,7 @@ services:
       - video
     command: /bin/bash
 
-  # Native desktop with Mesa CPU rendering; launch with bash run-native.sh.
+  # Native desktop with Mesa CPU rendering; launch with bash run.sh native.
   robotics-native:
     profiles: ["native"]
     build: .
