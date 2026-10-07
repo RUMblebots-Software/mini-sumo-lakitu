@@ -1,0 +1,31 @@
+# Jetson Nano / JetPack 4.6 / L4T 32.7.1 only.
+# Keep the vendor-compatible userspace instead of the Ubuntu 22.04 CPU image.
+FROM dustynv/ros:humble-desktop-l4t-r32.7.1@sha256:d93c0fc366578dac6ccba2770a60ce53d18655d04d8ece9de53dd12f6aa669b5
+
+USER root
+ENV DEBIAN_FRONTEND=noninteractive
+ENV RCUTILS_COLORIZED_OUTPUT=1
+ENV ROS_DOMAIN_ID=0
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates curl gnupg lsb-release mesa-utils \
+    && rm -rf /var/lib/apt/lists/*
+
+# Use Fortress packages for the base image's actual Ubuntu release.
+RUN curl -fsSL https://packages.osrfoundation.org/gazebo.gpg \
+      -o /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] https://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" \
+      > /etc/apt/sources.list.d/gazebo-stable.list \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends ignition-fortress \
+    && rm -rf /var/lib/apt/lists/*
+
+# The source-built Humble image can use an install/ prefix.
+RUN if [ -f /opt/ros/humble/install/setup.bash ]; then \
+      echo 'source /opt/ros/humble/install/setup.bash' >> /root/.bashrc; \
+    elif [ -f /opt/ros/humble/setup.bash ]; then \
+      echo 'source /opt/ros/humble/setup.bash' >> /root/.bashrc; \
+    else echo 'ROS Humble setup.bash missing from base image' >&2; exit 1; fi
+
+WORKDIR /root/Documents/ros2_ws
+CMD ["/bin/bash"]
