@@ -51,3 +51,24 @@ docker compose --profile native build        # or: docker-compose --profile nati
 # Build if needed, start, and open a shell
 ./run.sh
 ``` 
+
+
+
+
+
+
+
+
+
+
+
+
+xhost +si:localuser:root
+ls
+cd ~/mini-sumo-lakitu/visualizer/docker
+docker compose exec -e DISPLAY="$DISPLAY" robotics-native bash -lc \
+  'source /opt/ros/humble/setup.bash && rviz2'
+
+
+echo "$DISPLAY"
+xhost
