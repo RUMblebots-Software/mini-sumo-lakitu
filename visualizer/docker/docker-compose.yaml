@@ -44,12 +44,11 @@ services:
   robotics-native:
     profiles: ["native"]
     build: .
-    runtime: nvidia
     environment:
       DISPLAY: ${DISPLAY:-:0}
       QT_X11_NO_MITSHM: "1"
-      NVIDIA_VISIBLE_DEVICES: all
-      NVIDIA_DRIVER_CAPABILITIES: all
+      LIBGL_ALWAYS_SOFTWARE: "1"
+      XDG_RUNTIME_DIR: /tmp/runtime-root
     volumes:
       - ../ros2_ws:/root/Documents/ros2_ws
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
