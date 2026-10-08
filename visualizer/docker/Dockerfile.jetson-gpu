@@ -17,11 +17,12 @@ RUN curl -fsSL --retry 3 https://raw.githubusercontent.com/ros/rosdistro/master/
 # GLX/NVIDIA libraries on Jetson Nano. Keep the renderer in the stable Mesa
 # software path so RViz and Gazebo can create a valid OpenGL context.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates curl gnupg lsb-release libgl1-mesa-dri libglx-mesa0 mesa-utils \
+    ca-certificates curl gnupg lsb-release libegl1-mesa libgl1-mesa-dri libglx-mesa0 mesa-utils \
     && rm -rf /var/lib/apt/lists/*
 
 ENV LIBGL_ALWAYS_SOFTWARE=1
 ENV __GLX_VENDOR_LIBRARY_NAME=mesa
+ENV MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
 
 # Use Fortress packages for the base image's actual Ubuntu release.
 # Bionic ARM64's ignition-fortress metapackage depends on the unavailable

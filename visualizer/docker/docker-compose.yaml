@@ -11,6 +11,7 @@ services:
       QT_X11_NO_MITSHM: "1"
       LIBGL_ALWAYS_SOFTWARE: "1"
       __GLX_VENDOR_LIBRARY_NAME: mesa
+      MESA_LOADER_DRIVER_OVERRIDE: llvmpipe
       XDG_RUNTIME_DIR: /tmp/runtime-root
     volumes:
       - ../ros2_ws:/root/Documents/ros2_ws
