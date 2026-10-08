@@ -18,12 +18,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Use Fortress packages for the base image's actual Ubuntu release.
+# Bionic ARM64's ignition-fortress metapackage depends on the unavailable
+# python3-ignition-gazebo6. Install Gazebo 6 directly: its -dev package pulls
+# in simulator plugins, GUI/QML dependencies, physics and Ogre 1/2 backends.
 RUN curl -fsSL https://packages.osrfoundation.org/gazebo.gpg \
       -o /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] https://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" \
       > /etc/apt/sources.list.d/gazebo-stable.list \
     && apt-get update \
-    && apt-get install -y --no-install-recommends ignition-fortress \
+    && apt-get install -y --no-install-recommends \
+      ignition-tools libignition-gazebo6-dev \
+    && ign gazebo --versions | grep -E '^6\.' \
     && rm -rf /var/lib/apt/lists/*
 
 # The source-built Humble image can use an install/ prefix.

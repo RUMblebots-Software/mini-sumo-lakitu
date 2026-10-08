@@ -65,7 +65,9 @@ Click **Play** in Gazebo to start the simulation. Fortress uses `ign gazebo`. On
 
 The separate `jetson-gpu` profile uses `Dockerfile.jetson-gpu`, based on the digest-pinned `dustynv/ros:humble-desktop-l4t-r32.7.1` image. Its tag was verified on Docker Hub, and ARM64 Fortress packages were verified in OSRF's Bionic and Focal package indexes. NVIDIA's forum identifies this Humble image for JetPack 4.6: [image reference](https://forums.developer.nvidia.com/t/ros2-humble-in-jetson-nano/302692/3).
 
-This profile targets the Jetson Nano with L4T 32.7.1. It uses the NVIDIA runtime and installs `ignition-fortress` for the base image's Ubuntu release. It does not mount the host's Tegra libraries manually or enable Mesa CPU-rendering overrides. The image build, NVIDIA rendering, and Gazebo simulation still need verification on the Jetson; registry and configuration checks alone do not prove GPU compatibility.
+This profile targets the Jetson Nano with L4T 32.7.1. It uses the NVIDIA runtime and installs Fortress through `ignition-tools` and `libignition-gazebo6-dev` for the base image's Ubuntu release. The latter pulls in the simulator plugins, GUI/QML dependencies, physics, and Ogre renderers. It does not mount the host's Tegra libraries manually or enable Mesa CPU-rendering overrides. The image build, NVIDIA rendering, and Gazebo simulation still need verification on the Jetson; registry and configuration checks alone do not prove GPU compatibility.
+
+The GPU Dockerfile refreshes the base image's expired ROS signing key before its first APT update. It avoids the `ignition-fortress` metapackage because the Bionic ARM64 version requires an unavailable `python3-ignition-gazebo6` package. The direct package installation omits that Python API binding and checks that `ign gazebo --versions` reports version 6 during the build.
 
 After copying these repository changes to the Jetson, run from its desktop terminal:
 
