@@ -45,10 +45,10 @@ elif [[ "$PROFILE" == "native" || "$PROFILE" == "jetson-gpu" ]]; then
     mkdir -p "$XDG_RUNTIME_DIR"
     chmod 700 "$XDG_RUNTIME_DIR"
     if [ "$1" = jetson-gpu ]; then
-      renderer=$(glxinfo -B 2>&1 || true)
+      renderer=$(glxinfo -B)
       printf "%s\n" "$renderer"
-      if ! printf "%s\n" "$renderer" | grep -Eq "OpenGL vendor string: (Mesa|llvmpipe|VMware)"; then
-        echo "Mesa software OpenGL is not working. Keep the output above for diagnosis; use bash run.sh native for a stable CPU-render fallback." >&2
+      if ! printf "%s\n" "$renderer" | grep -q "OpenGL vendor string: NVIDIA"; then
+        echo "NVIDIA OpenGL is not working. Keep the output above for diagnosis; use bash run.sh native for CPU rendering." >&2
         exit 1
       fi
     fi

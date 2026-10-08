@@ -13,29 +13,17 @@ ENV ROS_DOMAIN_ID=0
 RUN curl -fsSL --retry 3 https://raw.githubusercontent.com/ros/rosdistro/master/ros.key \
       -o /usr/share/keyrings/ros-archive-keyring.gpg
 
-# The container's Ubuntu 22.04 GL stack is not compatible with the host JetPack
-# GLX/NVIDIA libraries on Jetson Nano. Keep the renderer in the stable Mesa
-# software path so RViz and Gazebo can create a valid OpenGL context.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates curl gnupg lsb-release libegl1-mesa libgl1-mesa-dri libglx-mesa0 mesa-utils \
+    ca-certificates curl gnupg lsb-release mesa-utils \
     && rm -rf /var/lib/apt/lists/*
 
-ENV LIBGL_ALWAYS_SOFTWARE=1
-ENV __GLX_VENDOR_LIBRARY_NAME=mesa
-ENV MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
-
 # Use Fortress packages for the base image's actual Ubuntu release.
-# Bionic ARM64's ignition-fortress metapackage depends on the unavailable
-# python3-ignition-gazebo6. Install Gazebo 6 directly: its -dev package pulls
-# in simulator plugins, GUI/QML dependencies, physics and Ogre 1/2 backends.
 RUN curl -fsSL https://packages.osrfoundation.org/gazebo.gpg \
       -o /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] https://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" \
       > /etc/apt/sources.list.d/gazebo-stable.list \
     && apt-get update \
-    && apt-get install -y --no-install-recommends \
-      ignition-tools libignition-gazebo6-dev \
-    && ign gazebo --versions | grep -E '^6\.' \
+    && apt-get install -y --no-install-recommends ignition-fortress \
     && rm -rf /var/lib/apt/lists/*
 
 # The source-built Humble image can use an install/ prefix.
