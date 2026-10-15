@@ -16,7 +16,8 @@ services:
       __GLX_VENDOR_LIBRARY_NAME: nvidia
       ROS_DOMAIN_ID: "0"
       ROS_LOCALHOST_ONLY: "0"
-      RMW_IMPLEMENTATION: rmw_fastrtps_cpp  
+      RMW_IMPLEMENTATION: rmw_fastrtps_cpp
+      IGN_PARTITION: robotics  
     devices:
       - /dev/nvhost-ctrl:/dev/nvhost-ctrl
       - /dev/nvhost-ctrl-gpu:/dev/nvhost-ctrl-gpu
@@ -92,6 +93,7 @@ services:
       ROS_DOMAIN_ID: "0"
       ROS_LOCALHOST_ONLY: "0"
       RMW_IMPLEMENTATION: rmw_fastrtps_cpp  
+      IGN_PARTITION: robotics
     volumes:
       - ../ros2_ws:/root/Documents/ros2_ws
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
