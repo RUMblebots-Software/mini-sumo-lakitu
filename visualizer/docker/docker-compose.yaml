@@ -6,26 +6,36 @@ services:
       context: .
       dockerfile: Dockerfile.jetson-gpu
     runtime: nvidia
+    ipc: host # Crucial for ROS 2 Shared Memory and fast X11 GUI rendering
     environment:
       DISPLAY: ${DISPLAY:-:0}
       QT_X11_NO_MITSHM: "1"
       XDG_RUNTIME_DIR: /tmp/runtime-root
       NVIDIA_VISIBLE_DEVICES: all
-      NVIDIA_DRIVER_CAPABILITIES: all
+      NVIDIA_DRIVER_CAPABILITIES: graphics,utility,display
       __GLX_VENDOR_LIBRARY_NAME: nvidia
+      ROS_DOMAIN_ID: "0"
+      ROS_LOCALHOST_ONLY: "0"
+      RMW_IMPLEMENTATION: rmw_fastrtps_cpp  
+    devices:
+      - /dev/nvhost-ctrl:/dev/nvhost-ctrl
+      - /dev/nvhost-ctrl-gpu:/dev/nvhost-ctrl-gpu
+      - /dev/nvhost-prof-gpu:/dev/nvhost-prof-gpu
+      - /dev/nvhost-vic:/dev/nvhost-vic
+      - /dev/nvmap:/dev/nvmap
     volumes:
       - ../ros2_ws:/root/Documents/ros2_ws
-      # Do not reuse build artifacts from the Ubuntu 22.04 CPU image.
       - jetson-gpu-build:/root/Documents/ros2_ws/build
       - jetson-gpu-install:/root/Documents/ros2_ws/install
       - jetson-gpu-log:/root/Documents/ros2_ws/log
-      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw # Must be read-write (:rw) for local GUI sockets
     stdin_open: true
     tty: true
     group_add:
       - video
+      # - render # Ensures your container user can access GPU device operations 
+    
     command: /bin/bash
-
   # Browser desktop (Xvfb + noVNC), software rendering. Works anywhere.
   robotics-web:
     profiles: ["web"]
@@ -79,6 +89,9 @@ services:
       LIBGL_ALWAYS_SOFTWARE: "1"
       __GLX_VENDOR_LIBRARY_NAME: mesa
       XDG_RUNTIME_DIR: /tmp/runtime-root
+      ROS_DOMAIN_ID: "0"
+      ROS_LOCALHOST_ONLY: "0"
+      RMW_IMPLEMENTATION: rmw_fastrtps_cpp  
     volumes:
       - ../ros2_ws:/root/Documents/ros2_ws
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
